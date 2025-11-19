@@ -15,6 +15,7 @@ import java.util.List;
 public class JobConfig {
     private List<Path> inputFiles;   // список входных файлов
     private Path workingDir;         // директория, куда класть m-* и r-* файлы
+    private Path outputDir;          // директория, куда класть выходные файлы
     private int workerCount;      // кол-во воркеров
 //    private int reduceWorkerCount;   // кол-во редюс-воркеров
     private int reduceCount;     // buckets (кол-во reduce-частей)

@@ -72,7 +72,7 @@ public class Coordinator {
     public void start() {
         List<Path> inputs = config.getInputFiles();
         for (int i = 0; i < inputs.size(); i++) {
-            mapQueue.add(new MapTask(inputs.get(i), i));
+            mapQueue.add(new MapTask(i, inputs.get(i)));
             mapCompleted.put(i, false);
         }
 

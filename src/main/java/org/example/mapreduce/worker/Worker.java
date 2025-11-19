@@ -1,6 +1,9 @@
 package org.example.mapreduce.worker;
 
+import org.example.mapreduce.config.JobConfig;
 import org.example.mapreduce.coordinator.Coordinator;
+import org.example.mapreduce.functions.DefaultSumReducer;
+import org.example.mapreduce.functions.DefaultWordCountMapper;
 import org.example.mapreduce.model.MapTask;
 import org.example.mapreduce.model.ReduceTask;
 import org.example.mapreduce.model.Task;
@@ -14,10 +17,12 @@ public class Worker implements Runnable {
     private final int id;
     private final Coordinator coordinator;
     private final AtomicBoolean running = new AtomicBoolean(true);
+    private final JobConfig config;
 
-    public Worker(int id, Coordinator coordinator) {
+    public Worker(int id, Coordinator coordinator, JobConfig config) {
         this.id = id;
         this.coordinator = coordinator;
+        this.config = config;
     }
 
     @Override
@@ -60,13 +65,17 @@ public class Worker implements Runnable {
     }
 
     private void handleMap(MapTask task) {
-        Mapper mapper = task.getMapper();
-        mapper.map(task.getInputFile(), task.getTempDir(), task.getReduceBuckets());
+
+        Mapper mapper = new DefaultWordCountMapper();
+        mapper.map(task.getFilePath(), config.getWorkingDir(), config.getReduceCount());
+//                task.getMapper();
+//        mapper.map(task.getInputFile(), task.getTempDir(), task.getReduceBuckets());
     }
 
     private void handleReduce(ReduceTask task) {
-        Reducer reducer = task.getReducer();
-        reducer.reduce(task.getIntermediateFiles(), task.getOutputFile());
+        Reducer reducer = new DefaultSumReducer();
+//        Reducer reducer = task.getReducer();
+        reducer.reduce(task.getIntermediateFiles(), config.getOutputDir());
     }
 
     public void setRunning(boolean isRunning) {

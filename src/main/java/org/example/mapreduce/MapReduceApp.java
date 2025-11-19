@@ -18,7 +18,7 @@ public class MapReduceApp {
 
         Coordinator coordinator = new Coordinator(jobConfig);
 
-        WorkerManager workerManager = new WorkerManager(buckets, coordinator);
+        WorkerManager workerManager = new WorkerManager(buckets, coordinator, jobConfig);
 
         coordinator.start(); // запускаем координатор(
 

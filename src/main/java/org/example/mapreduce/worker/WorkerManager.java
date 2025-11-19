@@ -1,5 +1,6 @@
 package org.example.mapreduce.worker;
 
+import org.example.mapreduce.config.JobConfig;
 import org.example.mapreduce.coordinator.Coordinator;
 import org.example.mapreduce.model.Task;
 
@@ -22,9 +23,9 @@ public class WorkerManager {
     private final List<Worker> workers = new ArrayList<>();
     private final List<Thread> threads = new ArrayList<>();
 
-    public WorkerManager(int workerCount, Coordinator coordinator) {
+    public WorkerManager(int workerCount, Coordinator coordinator, JobConfig config) {
         for (int i = 0; i < workerCount; i++) {
-            Worker worker = new Worker(i, coordinator);
+            Worker worker = new Worker(i, coordinator, config);
             workers.add(worker);
 
             Thread thread = new Thread(worker, "worker-" + i);
