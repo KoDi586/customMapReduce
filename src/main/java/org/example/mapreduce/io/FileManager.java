@@ -15,17 +15,17 @@ import java.util.stream.Stream;
 
 public class FileManager {
     /**
-     * Возвращает список промежуточных файлов, соответствующих заданному reduceId.
+     * Возвращает список расположений промежуточных файлов, соответствующих заданному reduceId.
      * Файлы имеют формат "mr-*-reduceId" в указанной временной директории.
      *
      * @param reduceId идентификатор редьюсера
-     * @param tempDir временная директория с промежуточными файлами
+     * @param workDir временная директория с промежуточными файлами
      * @return список путей к файлам, подходящим под шаблон mr-*-reduceId
      */
     //todo проверить на соответствие описанию
-    public static List<Path> listIntermediateFilesForReducer(int reduceId, Path tempDir) {
+    public static List<Path> listIntermediateFilesForReducer(int reduceId, Path workDir) {
         String suffix = "-" + reduceId;
-        try (Stream<Path> files = Files.list(tempDir)) {
+        try (Stream<Path> files = Files.list(workDir)) {
             return files
                     .filter(Files::isRegularFile)
                     .filter(path -> path.getFileName().toString().endsWith(suffix))

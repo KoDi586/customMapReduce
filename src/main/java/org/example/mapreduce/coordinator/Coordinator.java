@@ -235,7 +235,7 @@ public class Coordinator {
         // Выполняем переход
         state = State.REDUCE_STAGE;
 
-        // Создаём reduceTask'и один раз // TODO: эта часть еще не проверена
+        // Создаём reduceTask'и один раз
 
         for (int reduceId = 0; reduceId < config.getReduceCount(); reduceId++) {
             // предполагается сигнатура FileManager.listIntermediateFilesForReducer(Path tempDir, int reduceId)
