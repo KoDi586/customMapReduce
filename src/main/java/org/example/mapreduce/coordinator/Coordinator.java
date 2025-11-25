@@ -20,12 +20,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Coordinator — распределитель задач для воркеров.
- *
  * Внутри возвращает объект Coordinator.Task, который может быть:
  * - MAP (с MapTask)
  * - REDUCE (с ReduceTask)
  * - STOP (команда завершиться)
- *
  * Логика:
  * - Пока MAP_STAGE: выдаём map задачи из mapQueue.
  * - Когда все map задачи завершены (и нет in-progress map): формируем reduceQueue и переходим в REDUCE_STAGE.
@@ -243,7 +241,6 @@ public class Coordinator {
      * - mapQueue пуст
      * - нет in-progress map
      * - все map помечены завершёнными
-     *
      * Этот метод синхронизирован должен вызываться под monitor'ом (synchronized(this))
      */
     private void transitionToReduceStageIfReady() {
