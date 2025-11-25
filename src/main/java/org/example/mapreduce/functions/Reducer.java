@@ -7,10 +7,10 @@ public interface Reducer {
 
     /**
      * Возвращает итоговое значение (для WordCount — сумма как строка).
-     *
-//     * @param key ключ, сгруппированный из маппера
-//     * @param values список промежуточных значений, соответствующих ключу
+     * @param bucketFiles список файлов с результатами map-задач
+     * @param workDir рабочая директория для промежуточных файлов
+     * @param reduceId номер редьюсера
      * @return итоговое значение в виде строки
      */
-    void /*String?*/ reduce(List<Path> bucketFiles, Path workDir, int reduceId);
+    void reduce(List<Path> bucketFiles, Path workDir, int reduceId);
 }

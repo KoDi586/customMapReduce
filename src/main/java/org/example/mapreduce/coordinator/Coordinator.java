@@ -53,11 +53,6 @@ public class Coordinator {
 
     public enum State { MAP_STAGE, REDUCE_STAGE, FINISHED }
 
-    /**
-     * Task — внутренний wrapper, который возвращается воркеру.
-     */
-
-
     public Coordinator(JobConfig config) {
         this.config = config;
         this.mapQueue = new LinkedBlockingQueue<>();
@@ -155,7 +150,6 @@ public class Coordinator {
 
                 // --- FINISHED ---
                 if (state == State.FINISHED) {
-
                     return Task.stop();
                 }
             }
@@ -166,7 +160,7 @@ public class Coordinator {
 
     private void createFinalResult(){
 
-        // Если флаг уже был установлен → сразу выходим
+        // Если флаг уже был установлен -> сразу выходим
         if (!finalResultCreated.compareAndSet(false, true)) {
             return; // уже выполняли, больше нельзя
         }
@@ -230,18 +224,6 @@ public class Coordinator {
         }
     }
 
-    /**
-     * Ожидание окончательного завершения Coordinator'а (внешний вызов).
-     */
-    // TODO: что это? и для чего?
-    public void awaitCompletion() throws InterruptedException {
-        synchronized (this) {
-            while (state != State.FINISHED) {
-                this.wait();
-            }
-        }
-    }
-
     /* ----------------- Вспомогательные методы ----------------- */
 
     private boolean allMapsCompleted() {
@@ -280,13 +262,10 @@ public class Coordinator {
         state = State.REDUCE_STAGE;
 
         // Создаём reduceTask'и один раз
-
         for (int reduceId = 0; reduceId < config.getReduceCount(); reduceId++) {
-            // предполагается сигнатура FileManager.listIntermediateFilesForReducer(Path tempDir, int reduceId)
+
             List<Path> intermediateFiles = FileManager.listIntermediateFilesForReducer(reduceId, config.getWorkingDir());
-            System.out.println("---------------------------------------");
-            System.out.println("intermediateFiles = " + intermediateFiles);
-            System.out.println("---------------------------------------");
+
             ReduceTask reduceTask = new ReduceTask(reduceId, intermediateFiles);
             reduceQueue.add(reduceTask);
             reduceCompleted.put(reduceId, false);

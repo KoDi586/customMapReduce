@@ -12,11 +12,7 @@ public class DefaultSumReducer implements Reducer {
 
     @Override
     public void reduce(List<Path> bucketFiles, Path workDir, int reduceId) {
-        System.out.println("----------------- Reduce started -----------------");
-
-        System.out.println("bucketFiles.size() = " + bucketFiles.size());
-        bucketFiles.stream()
-                .forEach(path -> System.out.println(path));
+        System.out.println("Reduce task" + reduceId + " started");
 
         Map<String, Integer> counter = new HashMap<>();
 
@@ -29,11 +25,8 @@ public class DefaultSumReducer implements Reducer {
                     }
                 }
             }
-            System.out.println("reduce step 0");
-            System.out.println("counter.entrySet().size() = " + counter.entrySet().size());
+            System.out.println("количество ключей в reduce задаче= " + counter.entrySet().size());
             counter.forEach((key, value) -> System.out.println(key + " = " + value));
-
-            System.out.println("reduce step 1");
 
             // Создаём папку если её нет
             Files.createDirectories(workDir);
@@ -42,9 +35,7 @@ public class DefaultSumReducer implements Reducer {
             // записываем результат
             try (BufferedWriter bw = Files.newBufferedWriter(outputFile)) {
                 for (Map.Entry<String, Integer> e : counter.entrySet()) {
-                    System.out.println("reduce step 2");
                     bw.write(e.getKey() + " " + e.getValue());
-                    System.out.println("reduce step 3");
                     bw.newLine();
                 }
             }
