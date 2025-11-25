@@ -11,7 +11,7 @@ import java.util.Map;
 public class DefaultSumReducer implements Reducer {
 
     @Override
-    public void reduce(List<Path> bucketFiles, Path outputDir) {
+    public void reduce(List<Path> bucketFiles, Path workDir, int reduceId) {
         System.out.println("----------------- Reduce started -----------------");
 
         System.out.println("bucketFiles.size() = " + bucketFiles.size());
@@ -36,8 +36,8 @@ public class DefaultSumReducer implements Reducer {
             System.out.println("reduce step 1");
 
             // Создаём папку если её нет
-            Files.createDirectories(outputDir);
-            Path outputFile = outputDir.resolve("result.txt");
+            Files.createDirectories(workDir);
+            Path outputFile = workDir.resolve("result-" + reduceId + ".txt");
 
             // записываем результат
             try (BufferedWriter bw = Files.newBufferedWriter(outputFile)) {

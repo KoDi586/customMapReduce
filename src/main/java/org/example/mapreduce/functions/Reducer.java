@@ -12,5 +12,5 @@ public interface Reducer {
 //     * @param values список промежуточных значений, соответствующих ключу
      * @return итоговое значение в виде строки
      */
-    void /*String?*/ reduce(List<Path> bucketFiles, Path outputFile);
+    void /*String?*/ reduce(List<Path> bucketFiles, Path workDir, int reduceId);
 }

@@ -6,12 +6,16 @@ import org.example.mapreduce.model.MapTask;
 import org.example.mapreduce.model.ReduceTask;
 import org.example.mapreduce.model.Task;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -138,6 +142,7 @@ public class Coordinator {
                     // нет in-progress reduce и очередь пуста -> все reduce должны быть завершены
                     if (allReducesCompleted()) {
                         state = State.FINISHED;
+                        createFinalResult();
                         // разбудим всех, чтобы они получили STOP
                         this.notifyAll();
                         return Task.stop();
@@ -154,6 +159,44 @@ public class Coordinator {
                     return Task.stop();
                 }
             }
+        }
+    }
+
+    private final AtomicBoolean finalResultCreated = new AtomicBoolean(false);
+
+    private void createFinalResult(){
+
+        // Если флаг уже был установлен → сразу выходим
+        if (!finalResultCreated.compareAndSet(false, true)) {
+            return; // уже выполняли, больше нельзя
+        }
+
+        // Дальше идёт единственное выполнение merge:
+        try {
+            Files.createDirectories(config.getOutputDir());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Path finalOutput = config.getOutputDir().resolve("result.txt");
+
+        try (BufferedWriter bw = Files.newBufferedWriter(finalOutput)) {
+
+            for (int i = 0; i < config.getReduceCount(); i++) {
+                Path part = config.getWorkingDir().resolve("result-" + i + ".txt");
+                if (Files.exists(part)) {
+                    Files.lines(part).forEach(line -> {
+                        try {
+                            bw.write(line);
+                            bw.newLine();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    });
+                }
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

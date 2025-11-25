@@ -75,7 +75,7 @@ public class Worker implements Runnable {
     private void handleReduce(ReduceTask task) {
         Reducer reducer = new DefaultSumReducer();
 //        Reducer reducer = task.getReducer();
-        reducer.reduce(task.getIntermediateFiles(), config.getOutputDir());
+        reducer.reduce(task.getIntermediateFiles(), config.getWorkingDir(), task.getReduceId());
     }
 
     public void setRunning(boolean isRunning) {
