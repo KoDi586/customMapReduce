@@ -10,7 +10,6 @@ public interface Reducer {
      * @param bucketFiles список файлов с результатами map-задач
      * @param workDir рабочая директория для промежуточных файлов
      * @param reduceId номер редьюсера
-     * @return итоговое значение в виде строки
      */
     void reduce(List<Path> bucketFiles, Path workDir, int reduceId);
 }

@@ -13,5 +13,4 @@ public class ReduceTask {
     private int reduceId;
     private List<Path> intermediateFiles;
 
-    //TODO: setters?
 }

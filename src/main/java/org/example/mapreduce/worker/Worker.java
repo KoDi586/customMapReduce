@@ -31,7 +31,7 @@ public class Worker implements Runnable {
             Task task;
 
             try {
-                // 🔥 Worker ждёт задание у Coordinator
+                // Worker ждёт задание у Coordinator
                 task = coordinator.requestTask();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -50,10 +50,9 @@ public class Worker implements Runnable {
                     case REDUCE -> handleReduce(task.getReduceTask());
                 }
             } catch (Exception ex) {
-                // можно логировать ошибку работы
                 ex.printStackTrace();
             } finally {
-                // 🔥 Уведомляем Coordinator о завершении
+                // Уведомляем Coordinator о завершении
                 switch (task.getType()) {
                     case MAP ->
                             coordinator.reportMapCompletion(task.getMapTask().getTaskId());
@@ -68,13 +67,11 @@ public class Worker implements Runnable {
 
         Mapper mapper = new DefaultWordCountMapper();
         mapper.map(task.getFilePath(), config.getWorkingDir(), config.getReduceCount());
-//                task.getMapper();
-//        mapper.map(task.getInputFile(), task.getTempDir(), task.getReduceBuckets());
+
     }
 
     private void handleReduce(ReduceTask task) {
         Reducer reducer = new DefaultSumReducer();
-//        Reducer reducer = task.getReducer();
         reducer.reduce(task.getIntermediateFiles(), config.getWorkingDir(), task.getReduceId());
     }
 

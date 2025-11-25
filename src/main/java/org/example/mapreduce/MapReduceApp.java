@@ -6,29 +6,20 @@ import org.example.mapreduce.worker.WorkerManager;
 
 public class MapReduceApp {
 
-    private final int buckets;
-    private final JobConfig jobConfig;
+
+    private final JobConfig config;
 
     public MapReduceApp(JobConfig config) {
-        this.buckets = config.getReduceCount();
-        this.jobConfig = config;
+        this.config = config;
     }
 
     public void execute() {
 
-        Coordinator coordinator = new Coordinator(jobConfig);
+        Coordinator coordinator = new Coordinator(config);
+        coordinator.start();
 
-        WorkerManager workerManager = new WorkerManager(buckets, coordinator, jobConfig);
-
-        coordinator.start(); // запускаем координатор(
-
-
-        // ... launcher logic ...
-
-        workerManager.stopAll();
-
-
-
+        WorkerManager workerManager = new WorkerManager(config.getWorkerCount(), coordinator, config);
+        workerManager.start();
 
     }
 }
