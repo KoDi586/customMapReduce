@@ -12,14 +12,15 @@ public class Main {
 
     public static void main(String[] args) {
 
+        Path rootPath = Paths.get("");
         JobConfig config = new JobConfig(
                 List.of(                                      // inputFiles
                         Path.of("data/input/first.txt"),
                         Path.of("data/input/second.txt"),
                         Path.of("data/input/third.txt")
                 ),
-                Paths.get("").toAbsolutePath().resolve("data/workdir"),               // workingDir
-                Path.of("/data/output"),             // outputDir
+                rootPath.toAbsolutePath().resolve("data/workdir"),               // workingDir
+                rootPath.toAbsolutePath().resolve("data/output"),           // outputDir
                 2,                                            // workerCount (mapper workers)
                 3                              // reduceCount (buckets)
 //                WordCountMapper.class,                        // mapperClass

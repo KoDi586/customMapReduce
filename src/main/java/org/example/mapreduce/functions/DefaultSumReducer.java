@@ -11,7 +11,13 @@ import java.util.Map;
 public class DefaultSumReducer implements Reducer {
 
     @Override
-    public void reduce(List<Path> bucketFiles, Path outputFile) {
+    public void reduce(List<Path> bucketFiles, Path outputDir) {
+        System.out.println("----------------- Reduce started -----------------");
+
+        System.out.println("bucketFiles.size() = " + bucketFiles.size());
+        bucketFiles.stream()
+                .forEach(path -> System.out.println(path));
+
         Map<String, Integer> counter = new HashMap<>();
 
         try {
@@ -23,11 +29,23 @@ public class DefaultSumReducer implements Reducer {
                     }
                 }
             }
+            System.out.println("reduce step 0");
+            System.out.println("counter.entrySet().size() = " + counter.entrySet().size());
+            counter.entrySet().stream()
+                    .forEach(entry -> System.out.println(entry.getKey() + " = " + entry.getValue()));
+
+            System.out.println("reduce step 1");
+
+            // Создаём папку если её нет
+            Files.createDirectories(outputDir);
+            Path outputFile = outputDir.resolve("result.txt");
 
             // записываем результат
             try (BufferedWriter bw = Files.newBufferedWriter(outputFile)) {
-                for (var e : counter.entrySet()) {
+                for (Map.Entry<String, Integer> e : counter.entrySet()) {
+                    System.out.println("reduce step 2");
                     bw.write(e.getKey() + " " + e.getValue());
+                    System.out.println("reduce step 3");
                     bw.newLine();
                 }
             }
