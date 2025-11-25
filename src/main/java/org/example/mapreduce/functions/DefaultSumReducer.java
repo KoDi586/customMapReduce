@@ -31,8 +31,7 @@ public class DefaultSumReducer implements Reducer {
             }
             System.out.println("reduce step 0");
             System.out.println("counter.entrySet().size() = " + counter.entrySet().size());
-            counter.entrySet().stream()
-                    .forEach(entry -> System.out.println(entry.getKey() + " = " + entry.getValue()));
+            counter.forEach((key, value) -> System.out.println(key + " = " + value));
 
             System.out.println("reduce step 1");
 

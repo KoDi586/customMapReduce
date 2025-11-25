@@ -39,8 +39,12 @@ public void map(Path inputFile, Path workingDir, int reduceBucketCount) {
                         try {
                             System.out.println("2 step");
                             // Формируем путь к временному файлу: m-<имя_файла>-<номер_бакета>.txt
-                            //TODO: было m а не mr я заменил потом проверить
-                            Path f = workingDir.resolve("mr-" + inputFile.getFileName() + "-" + b + ".txt");
+
+                            // чтобы убрать лишние расширения файла
+                            Path preFileName = inputFile.getFileName();           // например: "data.txt"
+                            String fileName =
+                                    preFileName.toString().replaceFirst("\\.[^.]+$", "");  // → "data"
+                            Path f = workingDir.resolve("mr-" + fileName + "-" + b + ".txt");
 
                             // Создаём директории, если отсутствуют
                             Files.createDirectories(f.getParent());

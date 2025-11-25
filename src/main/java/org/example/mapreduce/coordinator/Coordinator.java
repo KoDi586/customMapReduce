@@ -242,9 +242,7 @@ public class Coordinator {
             // предполагается сигнатура FileManager.listIntermediateFilesForReducer(Path tempDir, int reduceId)
             List<Path> intermediateFiles = FileManager.listIntermediateFilesForReducer(reduceId, config.getWorkingDir());
             System.out.println("---------------------------------------");
-            System.out.println("intermediateFiles.size() = " + intermediateFiles.size());
-            intermediateFiles
-                    .forEach(System.out::println);
+            System.out.println("intermediateFiles = " + intermediateFiles);
             System.out.println("---------------------------------------");
             ReduceTask reduceTask = new ReduceTask(reduceId, intermediateFiles);
             reduceQueue.add(reduceTask);

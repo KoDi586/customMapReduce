@@ -27,10 +27,6 @@ public class FileManager {
         String suffix = "-" + reduceId + ".txt";
         try (Stream<Path> files = Files.list(workDir)) {
             return files
-                    .peek(path -> {
-                        String string = path.toString();
-                        System.out.println("path = " + string);
-                    })
                     .filter(Files::isRegularFile)
                     .filter(path -> path.getFileName().toString().endsWith(suffix))
                     .filter(path -> path.getFileName().toString().startsWith("mr-"))
