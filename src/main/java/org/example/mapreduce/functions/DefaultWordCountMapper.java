@@ -44,6 +44,7 @@ public void map(Path inputFile, Path workingDir, int reduceBucketCount) {
 
                             // Создаём директории, если отсутствуют
                             Files.createDirectories(f.getParent());
+                            System.out.println("директории для работы созданы: " + f.getParent());
 
                             return Files.newBufferedWriter(f);
                         } catch (Exception e) {

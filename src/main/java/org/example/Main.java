@@ -5,6 +5,7 @@ import org.example.mapreduce.coordinator.Coordinator;
 import org.example.mapreduce.worker.WorkerManager;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class Main {
@@ -17,7 +18,7 @@ public class Main {
                         Path.of("data/input/second.txt"),
                         Path.of("data/input/third.txt")
                 ),
-                Path.of("/data/workdir"),               // workingDir
+                Paths.get("").toAbsolutePath().resolve("data/workdir"),               // workingDir
                 Path.of("/data/output"),             // outputDir
                 2,                                            // workerCount (mapper workers)
                 3                              // reduceCount (buckets)
