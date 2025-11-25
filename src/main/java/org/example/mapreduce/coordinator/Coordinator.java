@@ -88,7 +88,7 @@ public class Coordinator {
      * Основной метод — воркер вызывает его, чтобы получить задачу.
      * Блокируется (wait), пока не появится работа или пока не придёт STOP.
      */
-    // TODO: добавить реализацию: воркер должен запрашивать задачи и потом фиксировать их завершение
+    // TODO: добавить реализацию: воркер должен запрашивать задачи и потом фиксировать их завершение(по-моему решено)
     public Task requestTask() throws InterruptedException {
         synchronized (this) {
             while (true) {
@@ -150,6 +150,7 @@ public class Coordinator {
 
                 // --- FINISHED ---
                 if (state == State.FINISHED) {
+
                     return Task.stop();
                 }
             }

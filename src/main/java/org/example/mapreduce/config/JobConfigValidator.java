@@ -14,9 +14,9 @@ public class JobConfigValidator {
         if (!Files.isDirectory(cfg.getWorkingDir())) {
             throw new IllegalArgumentException("workingDir must exist");
         }
-        if (cfg.getMapperClass() == null || cfg.getReducerClass() == null) {
-            throw new IllegalArgumentException("Mapper/Reducer must not be null");
-        }
+//        if (cfg.getMapperClass() == null || cfg.getReducerClass() == null) {
+//            throw new IllegalArgumentException("Mapper/Reducer must not be null");
+//        }
     }
 }
 

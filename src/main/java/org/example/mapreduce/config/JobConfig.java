@@ -20,8 +20,8 @@ public class JobConfig {
 //    private int reduceWorkerCount;   // кол-во редюс-воркеров
     private int reduceCount;     // buckets (кол-во reduce-частей)
 
-    private Class<? extends Mapper> mapperClass;
-    private Class<? extends Reducer> reducerClass;
+//    private Class<? extends Mapper> mapperClass;
+//    private Class<? extends Reducer> reducerClass;
 
     // конструкторы + геттеры
 }
